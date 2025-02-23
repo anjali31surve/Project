@@ -78,7 +78,7 @@ app.post('/admin/login', (req, res) => {
             return res.status(401).json({ message: '❌ Invalid credentials.' });
         }
         // res.json({ message: '✅ Login successful!', user });
-        
+        res.redirect("/dashboard");
     });
 });
 
@@ -99,7 +99,7 @@ app.post('/admin/signup', (req, res) => {
         return res.status(400).send("❌ All fields are required.");
     }
 
-    res.redirect("/dashboard");
+    
     
 
     db.run(

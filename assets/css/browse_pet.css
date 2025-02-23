@@ -5,23 +5,7 @@ body {
     padding: 0;
     background-color: #fff7e6;
 }
-.navbar {
-    background-color: #f8b400;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.navbar a {
-    color: #333;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 1em;
-    font-weight: bold;
-}
-.navbar a:hover {
-    color: #000;
-}
+
 .header {
     background-color: #ffdfba;
     padding: 20px;

@@ -11,54 +11,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Navbar Styling */
-.navbar {
-    background-color: #ffe4b2; /* Soft Orange */
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Navbar Menu Styling */
-.navbar .menu {
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    gap: 15px;
-}
-
-.navbar .menu a {
-    text-decoration: none;
-    color: #8b4513; /* Brown */
-    font-size: 1em;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.navbar .menu a:hover {
-    color: #4b2c20; /* Darker Brown on Hover */
-    text-decoration: underline;
-}
-
-/* Navbar Logo Styling */
-.navbar .logo {
-    display: flex;
-    align-items: center;
-}
-
-.navbar .logo img {
-    height: 40px;
-    margin-right: 10px;
-}
-
-.navbar .logo a {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #007bff; /* Bright Blue */
-    text-decoration: none;
-}
 
 /* Main Content Styling */
 main {

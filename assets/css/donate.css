@@ -3,47 +3,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffe0a6;
-  padding: 10px 20px;
-}
-
-.navbar .logo {
-  display: flex;
-  align-items: center;
-}
-
-.navbar .logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.navbar .logo h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #0075c4;
-}
-
-.navbar .menu {
-  display: flex;
-  gap: 15px;
-}
-
-.navbar .menu a {
-  text-decoration: none;
-  color: #a54d09;
-  font-weight: bold;
-}
-
-.navbar .menu a:hover {
-  text-decoration: underline;
-}
-
-
 
 /* Donate Section */
 .donate-main {
