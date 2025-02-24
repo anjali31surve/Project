@@ -502,3 +502,91 @@ h1 {
 .dashboard-btn:hover {
     background-color: #0056b3;
 }
+
+
+    /* User Management Styles */
+    .user-management-content {
+        margin-top: 20px;
+    }
+
+    #userTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    #userTable th, #userTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #userTable th {
+        background-color: #f4f4f4;
+    }
+
+    .add-user-btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .add-user-btn:hover {
+        background-color: #45a049;
+    }
+
+    .user-form-container {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    .user-form-container label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .user-form-container input, .user-form-container select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+
+    .edit-btn, .delete-btn {
+        padding: 5px 10px;
+        margin: 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .edit-btn {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }

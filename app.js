@@ -5,8 +5,16 @@ const path = require('path');
 app.set('view engine', "ejs");
 const db = require ("./database/database.ejs");
 
+
+// Import admin routes
+const adminRoutes = require("./routes/admin");
+
+// Use admin routes
+app.use("/admin", adminRoutes);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // ✅ GET Route for Login Page
 app.get('/login', (req, res) => {
@@ -81,6 +89,55 @@ app.post('/admin/login', (req, res) => {
         res.redirect("/dashboard");
     });
 });
+
+
+// Add a new pet
+app.post("/pets", (req, res) => {
+    const { pet_name, category, breed, age, description, image } = req.body;
+    console.log(req.body)
+    const sql = `INSERT INTO pets (pet_name, category, breed, age, description, image) VALUES (?, ?, ?, ?, ?, ?)`;
+    db.run(sql, [pet_name, category, breed, age, description, image], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ id: this.lastID });
+    });
+});
+
+// Get all pets
+app.get("/pets", (req, res) => {
+    const sql = `SELECT * FROM pets`;
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
+// Update a pet
+app.put("/pets/:id", (req, res) => {
+    const { pet_name, category, breed, age, description, image } = req.body;
+    const sql = `UPDATE pets SET pet_name = ?, category = ?, breed = ?, age = ?, description = ?, image = ? WHERE id = ?`;
+    db.run(sql, [pet_name, category, breed, age, description, image, req.params.id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ changes: this.changes });
+    });
+});
+
+// Delete a pet
+app.delete("/pets/:id", (req, res) => {
+    const sql = `DELETE FROM pets WHERE id = ?`;
+    db.run(sql, [req.params.id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ changes: this.changes });
+    });
+});
+
 
 
 
@@ -192,10 +249,19 @@ app.get('/meet', (req, res) => {
     res.render('meet');
 });
 
-
-app.get('/dashboard', (req, res) => {
-    res.render('dashboard');
+// Route to render the dashboard
+app.get("/dashboard", (req, res) => {
+    const sql = `SELECT * FROM pets`;
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        // Render the dashboard view and pass the pets data
+        res.render("dashboard", { pets: rows });
+    });
 });
+
+
 
 
 app.get('/addpet', (req, res) => {
@@ -208,6 +274,11 @@ app.get('/user_panel', (req, res) => {
 
 app.get('/add_pet', (req, res) => {
     res.render('add_pet');
+});
+
+
+app.get('/track_application', (req, res) => {
+    res.render('track_application');
 });
 
 

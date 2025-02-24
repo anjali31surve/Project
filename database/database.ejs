@@ -25,16 +25,20 @@ function createTables() {
         }
     });
 
-    db.run(`CREATE TABLE IF NOT EXISTS admins (
+    // Create pets table
+    db.run(`CREATE TABLE IF NOT EXISTS pets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
+        pet_name TEXT NOT NULL,
+        category TEXT NOT NULL,
+        breed TEXT NOT NULL,
+        age INTEGER NOT NULL,
+        description TEXT NOT NULL,
+        image TEXT
     )`, (err) => {
         if (err) {
-            console.error("Error creating table:", err.message);
+            console.error("Error creating pets table:", err.message);
         } else {
-            console.log("Users table created successfully.");
+            console.log("Pets table created successfully.");
         }
     });
 }

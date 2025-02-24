@@ -107,7 +107,9 @@
                 </form>
                 
                 <div class="link">
-                    <p>Already submitted an application? <a href="#">Track your application</a></p>
+                    <p>Already submitted an application? <a href="/track_application" class="track-button">
+                        <i class="fas fa-search"></i> Track your application
+                    </a></p>
                 </div>
             </div>
             
@@ -115,13 +117,15 @@
     </main>
 
     <!-- Popup Modal -->
-    <div id="successPopup" class="popup">
-        <div class="popup-content">
-            <h2>Application Submitted Successfully!</h2>
-            <p>Your adoption application has been received. We will contact you shortly.</p>
-            <button id="closePopup">Close</button>
-        </div>
+    <!-- Popup Modal -->
+<div id="successPopup" class="popup">
+    <div class="popup-content">
+        <h2>Application Submitted Successfully!</h2>
+        <p>Your adoption application has been received. We will contact you shortly.</p>
+        <p><strong>Reference Number:</strong> <span id="referenceNumberDisplay"></span></p>
+        <button id="closePopup">Close</button>
     </div>
+</div>
 
     <script>
         // Handle form submission

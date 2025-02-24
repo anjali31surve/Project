@@ -20,7 +20,9 @@
                 <li onclick="showSection('analytics')">📊 Analytics</li>
                 <li onclick="showSection('messaging')">✉️ Messaging</li>
                 <li onclick="showSection('get-involved')">🤝 Get Involved</li>
-                <li onclick="showSection('setting')">🤝 Setting</li>  
+                <li onclick="showSection('setting')">🤝 Setting</li>
+                <li onclick="showSection('user-management')">👤 User Management</li> <!-- New Section -->
+
 
             </ul>
         </div>
@@ -43,20 +45,28 @@
 <div id="pet-listings" class="section" style="display: none;">
     <h1>🐶 Pet Listings</h1>
     <div class="pet-listings-content">
-        <table id="petTable">
+        <table border="1">
             <thead>
                 <tr>
-                    <th>Image</th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Breed</th>
                     <th>Age</th>
                     <th>Description</th>
-                    <th>Actions</th>
+                    <th>Image</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be added dynamically -->
+                <% pets.forEach(pet => { %>
+                    <tr>
+                        <td><%= pet.name %></td>
+                        <td><%= pet.category %></td>
+                        <td><%= pet.breed %></td>
+                        <td><%= pet.age %></td>
+                        <td><%= pet.description %></td>
+                        <td><img src="<%= pet.image %>" alt="Pet Image" style="width: 50px; height: 50px;"></td>
+                    </tr>
+                <% }) %>
             </tbody>
         </table>
 
@@ -66,7 +76,7 @@
         <!-- Pet Form Container (Initially Hidden) -->
         <div id="petFormContainer" class="pet-form-container" style="display: none;">
             <h3>Add a Pet</h3>
-            <form id="petForm">
+            <form action="pets" id="petForm">
                 <label>Pet Name:</label>
                 <input type="text" id="petName" required>
                 
@@ -91,7 +101,7 @@
                 <label>Upload Image:</label>
                 <input type="file" id="petImage" accept="image/*">
                 
-                <button type="button" class="submit-btn" id="submitPetBtn">Add Pet</button>
+                <button type="button" class="submit-btn" value="submit" id="submitPetBtn">Add Pet</button>
             </form>
         </div>
     </div>
@@ -197,42 +207,118 @@
 </script>
 
 
+<!-- Adoption Requests Section -->
+<div id="adoption-requests" class="section" style="display: none;">
+    <h1>📋 Adoption Requests</h1>
+    <table id="requests-table" border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Pet</th>
+                <th>Date</th>
+                <th>Meet and Greet Time</th> <!-- New Column -->
+                <th>Reference Number</th> <!-- New Column -->
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>Bella (Dog)</td>
+                <td>2025-02-14</td>
+                <td class="meet-greet-time">-</td> <!-- Placeholder for Meet and Greet Time -->
+                <td class="reference-number">-</td> <!-- Placeholder for Reference Number -->
+                <td>
+                    <button class="accept-btn" onclick="handleAction(this, 'accepted')">✅ Accept</button>
+                    <button class="reject-btn" onclick="handleAction(this, 'rejected')">❌ Reject</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td>Whiskers (Cat)</td>
+                <td>2025-02-12</td>
+                <td class="meet-greet-time">-</td> <!-- Placeholder for Meet and Greet Time -->
+                <td class="reference-number">-</td> <!-- Placeholder for Reference Number -->
+                <td>
+                    <button class="accept-btn" onclick="handleAction(this, 'accepted')">✅ Accept</button>
+                    <button class="reject-btn" onclick="handleAction(this, 'rejected')">❌ Reject</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-            <!-- Adoption Reqest -->
-            <div id="adoption-requests" class="section" style="display: none;">
-                <h1>📋 Adoption Requests</h1>
-                <table id="requests-table" border="1">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Pet</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>Bella (Dog)</td>
-                            <td>2025-02-14</td>
-                            <td>
-                                <button class="accept-btn" onclick="handleAction(this, 'accepted')">✅ Accept</button>
-                                <button class="reject-btn" onclick="handleAction(this, 'rejected')">❌ Reject</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jane Smith</td>
-                            <td>Whiskers (Cat)</td>
-                            <td>2025-02-12</td>
-                            <td>
-                                <button class="accept-btn" onclick="handleAction(this, 'accepted')">✅ Accept</button>
-                                <button class="reject-btn" onclick="handleAction(this, 'rejected')">❌ Reject</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
+<script>
+    function handleAction(button, status) {
+        let row = button.parentElement.parentElement;
+        let meetGreetCell = row.querySelector(".meet-greet-time");
+        let referenceNumberCell = row.querySelector(".reference-number");
+
+        if (status === "accepted") {
+            // Generate a random meet and greet time (e.g., within the next 7 days)
+            const meetGreetTime = generateMeetAndGreetTime();
+            meetGreetCell.textContent = meetGreetTime;
+
+            // Generate a random reference number
+            const referenceNumber = generateReferenceNumber();
+            referenceNumberCell.textContent = referenceNumber;
+
+            alert(`Request has been ${status}. Meet and Greet scheduled for: ${meetGreetTime}. Reference Number: ${referenceNumber}`);
+        } else if (status === "rejected") {
+            meetGreetCell.textContent = "-"; // Reset meet and greet time if rejected
+            referenceNumberCell.textContent = "-"; // Reset reference number if rejected
+            alert(`Request has been ${status}.`);
+        }
+
+        // Fade out and remove the row
+        row.style.transition = "opacity 0.5s ease-out";
+        row.style.opacity = "0";
+        setTimeout(() => row.remove(), 500);
+    }
+
+    // Function to generate a random meet and greet time
+    function generateMeetAndGreetTime() {
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        // Generate a random date within the next 7 days
+        const currentDate = new Date();
+        const randomDays = Math.floor(Math.random() * 7) + 1; // 1 to 7 days
+        const meetDate = new Date(currentDate.setDate(currentDate.getDate() + randomDays));
+
+        // Generate a random time between 9 AM and 5 PM
+        const randomHours = Math.floor(Math.random() * 9) + 9; // 9 AM to 5 PM
+        const randomMinutes = Math.floor(Math.random() * 60); // 0 to 59 minutes
+
+        // Format the date and time
+        const formattedDate = `${days[meetDate.getDay()]} ${months[meetDate.getMonth()]} ${meetDate.getDate()}`;
+        const formattedTime = `${randomHours % 12 || 12}:${randomMinutes.toString().padStart(2, "0")} ${randomHours >= 12 ? "PM" : "AM"}`;
+
+        return `${formattedDate} at ${formattedTime}`;
+    }
+
+    // Function to generate a random reference number
+    function generateReferenceNumber() {
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numbers = "0123456789";
+        let referenceNumber = "";
+
+        // Add 3 random letters
+        for (let i = 0; i < 3; i++) {
+            referenceNumber += letters[Math.floor(Math.random() * letters.length)];
+        }
+
+        // Add 4 random numbers
+        for (let i = 0; i < 4; i++) {
+            referenceNumber += numbers[Math.floor(Math.random() * numbers.length)];
+        }
+
+        return referenceNumber;
+    }
+</script>
+
+
+
             <link rel="stylesheet" href="css/dashboard.css">
             
             <script>
@@ -529,6 +615,137 @@
     }
 </script>
 
+
+
+<!-- User Management Section -->
+<div id="user-management" class="section" style="display: none;">
+    <h1>👤 User Management</h1>
+    <div class="user-management-content">
+        <!-- Table to Display Users -->
+        <table id="userTable" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be added dynamically -->
+            </tbody>
+        </table>
+
+        <!-- Add User Button -->
+        <button class="add-user-btn" id="addUserBtn">➕ Add User</button>
+
+        <!-- User Form Container (Initially Hidden) -->
+        <div id="userFormContainer" class="user-form-container" style="display: none;">
+            <h3>Add/Edit User</h3>
+            <form id="userForm">
+                <label>Name:</label>
+                <input type="text" id="userName" required>
+                
+                <label>Email:</label>
+                <input type="email" id="userEmail" required>
+                
+                <label>Role:</label>
+                <select id="userRole">
+                    <option value="Admin">Admin</option>
+                    <option value="Volunteer">Volunteer</option>
+                    <option value="User">User</option>
+                </select>
+                
+                <button type="button" class="submit-btn" id="submitUserBtn">Save User</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // Toggle user form visibility
+    document.getElementById("addUserBtn").addEventListener("click", toggleUserForm);
+    document.getElementById("submitUserBtn").addEventListener("click", saveUser);
+
+    // Toggle user form visibility
+    function toggleUserForm() {
+        const formContainer = document.getElementById("userFormContainer");
+        const userTable = document.getElementById("userTable");
+
+        if (formContainer.style.display === "none" || formContainer.style.display === "") {
+            formContainer.style.display = "block";
+            userTable.style.display = "none"; // Hide table
+        } else {
+            formContainer.style.display = "none";
+            userTable.style.display = "table"; // Show table
+        }
+    }
+
+    // Function to save a new user
+    function saveUser() {
+        let name = document.getElementById("userName").value;
+        let email = document.getElementById("userEmail").value;
+        let role = document.getElementById("userRole").value;
+
+        if (name === "" || email === "" || role === "") {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        let table = document.getElementById("userTable").getElementsByTagName("tbody")[0];
+        let row = table.insertRow();
+        let idCell = row.insertCell(0);
+        let nameCell = row.insertCell(1);
+        let emailCell = row.insertCell(2);
+        let roleCell = row.insertCell(3);
+        let actionCell = row.insertCell(4);
+
+        // Generate a unique ID (for demonstration purposes)
+        let userId = table.rows.length;
+
+        // Add user details
+        idCell.innerHTML = userId;
+        nameCell.innerHTML = name;
+        emailCell.innerHTML = email;
+        roleCell.innerHTML = role;
+
+        // Add action buttons
+        actionCell.innerHTML = `
+            <button class="edit-btn" onclick="editUser(this)">✏️ Edit</button>
+            <button class="delete-btn" onclick="deleteUser(this)">🗑️ Delete</button>
+        `;
+
+        // Reset form and hide it
+        document.getElementById("userForm").reset();
+        toggleUserForm(); // Hide form and show table
+    }
+
+    // Function to delete a user
+    function deleteUser(button) {
+        let row = button.closest("tr");
+        row.remove();
+    }
+
+    // Function to edit a user
+    function editUser(button) {
+        let row = button.closest("tr");
+        let cells = row.cells;
+
+        // Populate the form with the current user's data
+        document.getElementById("userName").value = cells[1].innerText;
+        document.getElementById("userEmail").value = cells[2].innerText;
+        document.getElementById("userRole").value = cells[3].innerText;
+
+        // Show the form
+        toggleUserForm();
+
+        // Remove the old row after editing
+        row.remove();
+    }
+</script>
   
 </body>
 </html>

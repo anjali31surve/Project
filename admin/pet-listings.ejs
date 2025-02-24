@@ -1,0 +1,68 @@
+<div id="pet-listings" class="section">
+    <h1>🐶 Pet Listings</h1>
+    <div class="pet-listings-content">
+        <h2>Pet Listings</h2>
+        <p>Total pets: <%= pets.length %></p> <!-- Debug line -->
+        
+        <tbody>
+            <% if (pets && pets.length > 0) { %>
+                <% pets.forEach(pet => { %>
+                    <tr>
+                        <td><%= pet.name %></td>
+                        <td><%= pet.category %></td>
+                        <td><%= pet.breed %></td>
+                        <td><%= pet.age %></td>
+                        <td><%= pet.description %></td>
+                        <td>
+                            <% if (pet.image) { %>
+                                <img src="<%= pet.image %>" alt="Pet Image" style="width: 50px; height: 50px;">
+                            <% } else { %>
+                                No image
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="6">No pets found.</td>
+                </tr>
+            <% } %>
+        </tbody>
+        
+
+        <!-- Add Pet Button -->
+        <button class="add-pet-btn" id="addPetBtn">➕ Add a Pet</button>
+
+        <!-- Pet Form Container (Initially Hidden) -->
+        <div id="petFormContainer" class="pet-form-container" style="display: none;">
+            <h3>Add a Pet</h3>
+            <form action="/pets" method="POST" id="petForm">
+                <label>Pet Name:</label>
+                <input type="text" id="petName" name="petName" required>
+                
+                <label>Category:</label>
+                <select id="petCategory" name="petCategory">
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Rabbit">Rabbit</option>
+                    <option value="Other">Other</option>
+                </select>
+                
+                <label>Breed:</label>
+                <input type="text" id="petBreed" name="petBreed" required>
+                
+                <label>Age:</label>
+                <input type="number" id="petAge" name="petAge" min="0" required>
+                
+                <label>Description:</label>
+                <textarea id="petDescription" name="petDescription" required></textarea>
+                
+                <label>Upload Image:</label>
+                <input type="file" id="petImage" name="petImage" accept="image/*">
+                
+                <button type="submit" class="submit-btn">Add Pet</button>
+            </form>
+        </div>
+    </div>
+</div>
