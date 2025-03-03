@@ -264,8 +264,8 @@ app.get("/dashboard", (req, res) => {
 
 
 
-app.get('/addpet', (req, res) => {
-    res.render('addpet');
+app.get('/adopet', (req, res) => {
+    res.render('adopet');
 });
 
 app.get('/user_panel', (req, res) => {

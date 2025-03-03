@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const sqlite3 = require("sqlite3").verbose();
 
 const db = require ("../database/database.ejs");
 
@@ -12,16 +13,18 @@ router.get("/dashboard", (req, res) => {
 
 // Route for pet listings
 router.get("/pet-listings", (req, res) => {
-    const sql = `SELECT * FROM pets`;
-    db.all(sql, [], (err, rows) => {
+    const sql = "SELECT name, category, breed, age, description, image_url FROM pets"; // Modify according to your DB schema
+    
+    db.all(sql, [], (err, pets) => {
+        console.log(pets)
         if (err) {
-            console.error("Database error:", err.message);
-            return res.status(500).json({ error: err.message });
+            console.error(err.message);
+            return res.status(500).send("Database error");
         }
-        console.log("Fetched pets:", rows); // ✅ Check if rows contain data
-        res.render("layout", { component: "pet-listings", pets: rows });
+        res.render("layout", { component: "pet-listings", pets });
     });
 });
+
 
 
 // Route for adoption requests

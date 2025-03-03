@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donations Management</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
     <h1>Donations Management</h1>
@@ -20,15 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Loop through donations and display them -->
-                <% donations.forEach(donation => { %>
-                    <tr>
-                        <td><%= donation.id %></td>
-                        <td><%= donation.donorName %></td>
-                        <td><%= donation.amount %></td>
-                        <td><%= donation.date %></td>
-                    </tr>
-                <% }) %>
+               
             </tbody>
         </table>
     </div>

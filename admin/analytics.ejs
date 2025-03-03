@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
     <h1>Analytics Dashboard</h1>
@@ -15,35 +15,8 @@
             <canvas id="myChart"></canvas>
         </div>
         <h2>User Engagement</h2>
-        <div id="engagementStats">
-            <p>Active Users: <%= activeUsers %></p>
-            <p>Page Views: <%= pageViews %></p>
-        </div>
+        
     </div>
-    <script src="/js/chart.js"></script>
-    <script>
-        // Example Chart.js initialization
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <%= chartLabels %>,
-                datasets: [{
-                    label: 'Website Traffic',
-                    data: <%= chartData %>,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
+    
 </body>
 </html>

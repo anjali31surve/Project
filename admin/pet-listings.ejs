@@ -1,68 +1,221 @@
-<div id="pet-listings" class="section">
-    <h1>🐶 Pet Listings</h1>
-    <div class="pet-listings-content">
-        <h2>Pet Listings</h2>
-        <p>Total pets: <%= pets.length %></p> <!-- Debug line -->
-        
-        <tbody>
-            <% if (pets && pets.length > 0) { %>
-                <% pets.forEach(pet => { %>
-                    <tr>
-                        <td><%= pet.name %></td>
-                        <td><%= pet.category %></td>
-                        <td><%= pet.breed %></td>
-                        <td><%= pet.age %></td>
-                        <td><%= pet.description %></td>
-                        <td>
-                            <% if (pet.image) { %>
-                                <img src="<%= pet.image %>" alt="Pet Image" style="width: 50px; height: 50px;">
-                            <% } else { %>
-                                No image
-                            <% } %>
-                        </td>
-                    </tr>
-                <% }) %>
-            <% } else { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Listings</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+
+        .add-pet-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .pet-form-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f1f1f1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🐾 Pet Listings</h1>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search pets by name, category, or breed...">
+
+        <!-- Pet Listings Table -->
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="6">No pets found.</td>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Breed</th>
+                    <th>Age</th>
+                    <th>Description</th>
+                    <th>Image</th>
                 </tr>
-            <% } %>
-        </tbody>
-        
+            </thead>
+            <tbody id="petTableBody">
+                <% if (pets.length > 0) { %>
+                    <% pets.forEach(pet => { %>
+                        <tr>
+                            <td><%= pet.name %></td>
+                            <td><%= pet.category %></td>
+                            <td><%= pet.breed %></td>
+                            <td><%= pet.age %> years</td>
+                            <td><%= pet.description %></td>
+                            <td><img src="/uploads/<%= pet.image %>" alt="<%= pet.name %>"></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6">No pets found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
 
         <!-- Add Pet Button -->
         <button class="add-pet-btn" id="addPetBtn">➕ Add a Pet</button>
 
-        <!-- Pet Form Container (Initially Hidden) -->
-        <div id="petFormContainer" class="pet-form-container" style="display: none;">
+        <!-- Pet Form -->
+        <div id="petFormContainer" class="pet-form-container">
             <h3>Add a Pet</h3>
-            <form action="/pets" method="POST" id="petForm">
+            <form action="/add-pet" id="petForm">
                 <label>Pet Name:</label>
-                <input type="text" id="petName" name="petName" required>
-                
+                <input type="text" id="petName" required>
+
                 <label>Category:</label>
-                <select id="petCategory" name="petCategory">
+                <select id="petCategory">
                     <option value="Dog">Dog</option>
                     <option value="Cat">Cat</option>
                     <option value="Bird">Bird</option>
                     <option value="Rabbit">Rabbit</option>
                     <option value="Other">Other</option>
                 </select>
-                
+
                 <label>Breed:</label>
-                <input type="text" id="petBreed" name="petBreed" required>
-                
+                <input type="text" id="petBreed" required>
+
                 <label>Age:</label>
-                <input type="number" id="petAge" name="petAge" min="0" required>
-                
+                <input type="number" id="petAge" min="0" required>
+
                 <label>Description:</label>
-                <textarea id="petDescription" name="petDescription" required></textarea>
-                
+                <textarea id="petDescription" required></textarea>
+
                 <label>Upload Image:</label>
-                <input type="file" id="petImage" name="petImage" accept="image/*">
-                
-                <button type="submit" class="submit-btn">Add Pet</button>
+                <input type="file" id="petImage" accept="image/*">
+
+                <button type="button" class="submit-btn" id="submitPetBtn">Add Pet</button>
             </form>
         </div>
     </div>
-</div>
+
+    <script>
+        document.getElementById("addPetBtn").addEventListener("click", function() {
+            let formContainer = document.getElementById("petFormContainer");
+            formContainer.style.display = formContainer.style.display === "none" ? "block" : "none";
+        });
+
+        document.getElementById("submitPetBtn").addEventListener("click", function() {
+            let name = document.getElementById("petName").value;
+            let category = document.getElementById("petCategory").value;
+            let breed = document.getElementById("petBreed").value;
+            let age = document.getElementById("petAge").value + " years";
+            let description = document.getElementById("petDescription").value;
+            
+            let imageInput = document.getElementById("petImage");
+            let imageSrc = imageInput.files.length > 0 ? URL.createObjectURL(imageInput.files[0]) : "images/default.jpg";
+
+            let table = document.getElementById("petTableBody");
+            let newRow = `<tr>
+                <td>${name}</td>
+                <td>${category}</td>
+                <td>${breed}</td>
+                <td>${age}</td>
+                <td>${description}</td>
+                <td><img src="${imageSrc}" alt="${name}"></td>
+            </tr>`;
+            
+            table.innerHTML += newRow;
+            document.getElementById("petForm").reset();
+            document.getElementById("petFormContainer").style.display = "none";
+        });
+
+        document.getElementById("searchBar").addEventListener("input", function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#petTableBody tr");
+
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
