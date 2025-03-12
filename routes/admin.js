@@ -27,6 +27,8 @@ router.get("/pet-listings", (req, res) => {
 
 
 
+
+
 // Route for adoption requests
 router.get("/adoption-requests", (req, res) => {
     res.render("layout", { component: "adoption-requests.ejs" });
@@ -63,3 +65,7 @@ router.get("/user-management", (req, res) => {
 });
 
 module.exports = router;
+
+
+
+

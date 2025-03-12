@@ -118,27 +118,34 @@
                     <th>Age</th>
                     <th>Description</th>
                     <th>Image</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="petTableBody">
                 <% if (pets.length > 0) { %>
                     <% pets.forEach(pet => { %>
-                        <tr>
-                            <td><%= pet.name %></td>
-                            <td><%= pet.category %></td>
-                            <td><%= pet.breed %></td>
-                            <td><%= pet.age %> years</td>
-                            <td><%= pet.description %></td>
+                        <tr data-id="<%= pet.id %>">
+                            <td class="pet-name"><%= pet.name %></td>
+                            <td class="pet-category"><%= pet.category %></td>
+                            <td class="pet-breed"><%= pet.breed %></td>
+                            <td class="pet-age"><%= pet.age %> years</td>
+                            <td class="pet-description"><%= pet.description %></td>
                             <td><img src="/uploads/<%= pet.image %>" alt="<%= pet.name %>"></td>
+                            <td>
+                                <button class="edit-btn" onclick="editPet('<%= pet.id %>')">✏️ Edit</button>
+                                <button class="delete-btn" onclick="deletePet('<%= pet.id %>')">🗑️ Delete</button>
+                            </td>
                         </tr>
                     <% }); %>
                 <% } else { %>
                     <tr>
-                        <td colspan="6">No pets found.</td>
+                        <td colspan="7">No pets found.</td>
                     </tr>
                 <% } %>
             </tbody>
         </table>
+
+
 
         <!-- Add Pet Button -->
         <button class="add-pet-btn" id="addPetBtn">➕ Add a Pet</button>
@@ -217,5 +224,54 @@
             });
         });
     </script>
+
+
+
+<script>
+    function editPet(petId) {
+        let row = document.querySelector(`tr[data-id="${petId}"]`);
+        let name = row.querySelector('.pet-name');
+        let category = row.querySelector('.pet-category');
+        let breed = row.querySelector('.pet-breed');
+        let age = row.querySelector('.pet-age');
+        let description = row.querySelector('.pet-description');
+
+        if (row.getAttribute("data-editing") === "true") {
+            // Save changes
+            row.setAttribute("data-editing", "false");
+            name.innerHTML = name.querySelector("input").value;
+            category.innerHTML = category.querySelector("input").value;
+            breed.innerHTML = breed.querySelector("input").value;
+            age.innerHTML = age.querySelector("input").value + " years";
+            description.innerHTML = description.querySelector("textarea").value;
+        } else {
+            // Edit Mode
+            row.setAttribute("data-editing", "true");
+            name.innerHTML = `<input type="text" value="${name.innerText}">`;
+            category.innerHTML = `<input type="text" value="${category.innerText}">`;
+            breed.innerHTML = `<input type="text" value="${breed.innerText}">`;
+            age.innerHTML = `<input type="number" value="${age.innerText.replace(' years', '')}">`;
+            description.innerHTML = `<textarea>${description.innerText}</textarea>`;
+        }
+    }
+
+    function deletePet(petId) {
+        let row = document.querySelector(`tr[data-id="${petId}"]`);
+        row.remove();
+    }
+
+    document.getElementById("searchBar").addEventListener("input", function() {
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#petTableBody tr");
+
+        rows.forEach(row => {
+            let text = row.textContent.toLowerCase();
+            row.style.display = text.includes(filter) ? "" : "none";
+        });
+    });
+
+</script>
+
+
 </body>
 </html>

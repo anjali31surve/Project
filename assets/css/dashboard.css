@@ -1029,3 +1029,32 @@ button:hover {
         font-size: 18px;
     }
 }
+
+
+td {
+    vertical-align: middle;
+}
+
+td:last-child {
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Adds spacing between buttons */
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-btn {
+    background-color: #2dbd54; /* green */
+    color: black;
+}
+
+.delete-btn {
+    background-color: #2dbd54; /* Green */
+    color: white;
+}
